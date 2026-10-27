@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="從原文生物學教科書釐清 Griffith 肺炎鏈球菌轉形：R 型菌的同源序列、EndA、ComEC 與 RecA 同源重組。">
+  <meta name="theme-color" content="#0d3b35">
+  <title>Griffith 轉形作用：DNA 如何進入 R 型菌並重組？</title>
+  <style>
+    :root {
+      --ink: #17312d;
+      --muted: #5b706c;
+      --paper: #fbfaf5;
+      --panel: #ffffff;
+      --green: #0d675a;
+      --green-dark: #0d3b35;
+      --mint: #dcefe8;
+      --gold: #d99d3e;
+      --gold-soft: #fff1d8;
+      --red: #a1493f;
+      --line: #d8e2dd;
+      --shadow: 0 16px 40px rgba(20, 54, 47, .10);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(216, 239, 231, .85), transparent 31rem),
+        linear-gradient(180deg, #f8f8f2 0%, var(--paper) 25rem);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      line-height: 1.78;
+    }
+
+    a { color: var(--green); text-underline-offset: 3px; }
+    a:hover { color: var(--red); }
+    .wrap { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+
+    header {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid rgba(13, 103, 90, .12);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid rgba(13, 103, 90, .25);
+      border-radius: 999px;
+      color: var(--green);
+      background: rgba(255,255,255,.65);
+      font-weight: 700;
+      letter-spacing: .05em;
+      font-size: .84rem;
+    }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+    h1 {
+      max-width: 880px;
+      margin: 22px 0 18px;
+      font-family: ui-serif, "Noto Serif TC", serif;
+      font-size: clamp(2.25rem, 6vw, 4.75rem);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+      color: var(--green-dark);
+    }
+    .lead { max-width: 790px; margin: 0; color: #3e5b55; font-size: clamp(1.05rem, 2vw, 1.28rem); }
+    .meta { margin-top: 24px; color: var(--muted); font-size: .9rem; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(251,250,245,.89);
+      backdrop-filter: blur(13px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav .wrap { display: flex; gap: 8px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
+    nav a { flex: 0 0 auto; padding: 7px 11px; border-radius: 10px; text-decoration: none; font-size: .9rem; font-weight: 650; }
+    nav a:hover { background: var(--mint); }
+
+    main { padding: 42px 0 90px; }
+    section { scroll-margin-top: 78px; margin: 0 0 58px; }
+    h2 {
+      margin: 0 0 18px;
+      color: var(--green-dark);
+      font-family: ui-serif, "Noto Serif TC", serif;
+      font-size: clamp(1.65rem, 3.5vw, 2.55rem);
+      line-height: 1.25;
+    }
+    h3 { margin: 28px 0 10px; color: var(--green-dark); font-size: 1.16rem; }
+    p { margin: .7em 0; }
+    strong { color: var(--green-dark); }
+
+    .summary-grid, .two-col, .source-grid { display: grid; gap: 18px; }
+    .summary-grid { grid-template-columns: repeat(4, 1fr); margin-top: 28px; }
+    .two-col { grid-template-columns: 1.1fr .9fr; align-items: start; }
+    .source-grid { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: rgba(255,255,255,.88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .summary-card { min-height: 190px; }
+    .num { display: block; color: var(--gold); font: 800 2rem/1 ui-serif, serif; }
+    .summary-card h3 { margin: 14px 0 8px; }
+    .summary-card p { color: var(--muted); margin: 0; font-size: .96rem; }
+
+    .answer {
+      border-left: 5px solid var(--gold);
+      background: var(--gold-soft);
+      padding: 18px 22px;
+      border-radius: 0 16px 16px 0;
+      margin: 20px 0;
+    }
+    blockquote {
+      margin: 18px 0;
+      padding: 16px 20px;
+      background: #f2f7f4;
+      border-left: 4px solid var(--green);
+      border-radius: 0 14px 14px 0;
+      color: #31534c;
+    }
+    blockquote cite { display: block; margin-top: 7px; color: var(--muted); font-size: .86rem; font-style: normal; }
+    .boundary {
+      padding: 14px 17px;
+      border: 1px dashed #ba8b42;
+      background: #fffaf0;
+      border-radius: 14px;
+      color: #69512d;
+      font-size: .93rem;
+    }
+
+    figure {
+      margin: 26px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .figure-body { padding: 24px; overflow-x: auto; }
+    figcaption { padding: 13px 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; background: #fafcfb; }
+    svg { display: block; width: 100%; height: auto; min-width: 620px; }
+
+    .step-list { counter-reset: steps; padding: 0; list-style: none; }
+    .step-list li {
+      position: relative;
+      margin: 0 0 14px;
+      padding: 18px 18px 18px 62px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.78);
+    }
+    .step-list li::before {
+      counter-increment: steps;
+      content: counter(steps);
+      position: absolute;
+      left: 17px;
+      top: 17px;
+      width: 31px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--green);
+      border-radius: 50%;
+      font-weight: 800;
+    }
+    .step-list strong { display: block; margin-bottom: 3px; }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      align-items: center;
+      padding: 22px;
+      background: var(--green-dark);
+      border-radius: var(--radius);
+      color: white;
+    }
+    .flow span { padding: 9px 12px; border-radius: 10px; background: rgba(255,255,255,.11); }
+    .flow b { color: #edc77a; font-size: 1.15rem; }
+
+    .source {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+    }
+    .source p { margin: 5px 0; color: var(--muted); font-size: .9rem; }
+    .tag { display: inline-block; padding: 3px 8px; border-radius: 7px; background: var(--mint); color: var(--green-dark); font-size: .78rem; font-weight: 750; }
+
+    footer { padding: 32px 0 50px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+
+    @media (max-width: 900px) {
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      header { padding-top: 48px; }
+      .summary-grid, .source-grid { grid-template-columns: 1fr; }
+      .summary-card { min-height: auto; }
+      .card { padding: 20px; }
+      .wrap { width: min(100% - 24px, 1120px); }
+    }
+    @media print {
+      nav { display: none; }
+      body { background: white; }
+      .card, figure { box-shadow: none; break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">原文書譯本 × 分子機制</div>
+      <h1>Griffith 轉形作用：DNA 如何進入 R 型菌並重組？</h1>
+      <p class="lead">釐清 4 個最容易混淆的問題：R 型菌為何仍有同源序列、細胞外核酸酵素由誰製造、雙股 DNA 如何變成單股，以及 RecA 如何把外來 DNA 併入染色體。</p>
+      <p class="meta">整理日期：2026-10-27｜臺灣生物學術語｜原文書圖像改繪為教學示意圖</p>
+    </div>
+  </header>
+
+  <nav aria-label="頁面導覽">
+    <div class="wrap">
+      <a href="#summary">結論</a>
+      <a href="#homology">R／S 同源性</a>
+      <a href="#enda">EndA 是誰的？</a>
+      <a href="#single-strand">如何成為單股？</a>
+      <a href="#recombination">同源重組</a>
+      <a href="#sources">原文書來源</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="summary">
+      <h2>先給答案</h2>
+      <div class="summary-grid">
+        <article class="card summary-card">
+          <span class="num">01</span>
+          <h3>不是質體</h3>
+          <p>Griffith／Avery 情境中，供體主要是死去 S 型菌釋出的染色體 DNA 片段。</p>
+        </article>
+        <article class="card summary-card">
+          <span class="num">02</span>
+          <h3>沒有莢膜 ≠ 沒有同源 DNA</h3>
+          <p>R 型是莢膜功能異常的突變株，仍和 S 型共享大量染色體序列。</p>
+        </article>
+        <article class="card summary-card">
+          <span class="num">03</span>
+          <h3>犧牲一股</h3>
+          <p>雙股 DNA 並非拆成兩條完整單股；一股被降解，另一股經 ComEC 進入。</p>
+        </article>
+        <article class="card summary-card">
+          <span class="num">04</span>
+          <h3>RecA 導引整合</h3>
+          <p>RecA 讓外來單股 DNA 尋找同源區、股侵入並形成局部異源雙股 DNA。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="homology">
+      <h2>一、R 型沒有莢膜，為何仍能和 S 型 DNA 配對？</h2>
+      <div class="two-col">
+        <div>
+          <div class="answer"><strong>關鍵：</strong>「沒有莢膜」描述的是表現型；「能否同源配對」取決於 DNA 序列是否相同或高度相似。這是兩個不同層次的問題。</div>
+          <p>《Weaver Molecular Biology》把 R 型稱為「失去形成莢膜能力的肺炎鏈球菌突變株」；《Pierce Genetics》也說 S 型會偶爾突變成缺乏多醣外被的 R 型。換句話說，R 型不是另一種完全不同的細菌，而是莢膜相關功能出了問題。</p>
+          <blockquote>“A certain mutant strain of <i>S. pneumoniae</i> has lost the ability to form a capsule.”<cite>Weaver, <i>Molecular Biology</i>, 5e, Ch. 2</cite></blockquote>
+          <p>Griffith 實際使用的是<strong>活 IIR 型受體</strong>與<strong>熱殺死 IIIS 型供體</strong>，最後回收到 IIIS 型菌。因此不能把它過度簡化成「同一個莢膜基因的小突變被修回」；它涉及不同莢膜型遺傳資訊的取得。</p>
+        </div>
+        <aside class="card">
+          <h3>同源性存在於哪裡？</h3>
+          <p>R、S 型同屬肺炎鏈球菌，核心基因體的大部分序列相同。即使莢膜合成區本身有突變、缺失或型別差異，片段兩端仍可能有足夠長的共同序列，供同源重組定位。</p>
+          <p class="boundary"><strong>證據邊界：</strong>原文書譯本說明了突變株、同源區及兩次互換，但沒有直接寫出 <i>cps</i> 基因座兩側的 <i>dexB</i>、<i>aliA</i>。這部分來自後續分子研究。</p>
+        </aside>
+      </div>
+
+      <figure>
+        <div class="figure-body">
+          <svg viewBox="0 0 1000 400" role="img" aria-labelledby="fig1-title fig1-desc">
+            <title id="fig1-title">供體與受體莢膜基因區的同源重組</title>
+            <desc id="fig1-desc">受體和供體在莢膜基因區兩側具有共同序列，因此可交換中間的不同區段。</desc>
+            <defs>
+              <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0d675a"/></marker>
+              <filter id="soft"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#17312d" flood-opacity=".12"/></filter>
+            </defs>
+            <text x="32" y="52" font-size="24" font-weight="700" fill="#0d3b35">R 型受體染色體</text>
+            <rect x="40" y="82" width="220" height="52" rx="13" fill="#dcefe8"/><text x="150" y="115" text-anchor="middle" font-size="19" fill="#0d3b35">共同左側序列</text>
+            <rect x="260" y="82" width="430" height="52" fill="#f1c6c0"/><text x="475" y="115" text-anchor="middle" font-size="19" fill="#7b332d">無功能／II 型莢膜區</text>
+            <rect x="690" y="82" width="250" height="52" rx="13" fill="#dcefe8"/><text x="815" y="115" text-anchor="middle" font-size="19" fill="#0d3b35">共同右側序列</text>
+
+            <text x="32" y="203" font-size="24" font-weight="700" fill="#0d3b35">S 型供體 DNA</text>
+            <rect x="40" y="232" width="220" height="52" rx="13" fill="#dcefe8"/><text x="150" y="265" text-anchor="middle" font-size="19" fill="#0d3b35">共同左側序列</text>
+            <rect x="260" y="232" width="430" height="52" fill="#f9dda4"/><text x="475" y="265" text-anchor="middle" font-size="19" fill="#6b4b13">可表現的 III 型莢膜區</text>
+            <rect x="690" y="232" width="250" height="52" rx="13" fill="#dcefe8"/><text x="815" y="265" text-anchor="middle" font-size="19" fill="#0d3b35">共同右側序列</text>
+
+            <path d="M150 292 C150 350, 305 350, 305 301" stroke="#0d675a" stroke-width="4" fill="none" marker-end="url(#arrow-green)"/>
+            <path d="M815 292 C815 350, 645 350, 645 301" stroke="#0d675a" stroke-width="4" fill="none" marker-end="url(#arrow-green)"/>
+            <text x="475" y="375" text-anchor="middle" font-size="20" font-weight="700" fill="#0d675a">兩端同源區提供重組定位，中間區段可以不同</text>
+          </svg>
+        </div>
+        <figcaption>圖 1｜教學示意：同源重組不要求整段供體 DNA 都和受體相同；兩端的同源區可讓中間區段被置換。概念依據：Pierce 圖 9.15；分子位置補充見 Ganaie 等人（2020）。</figcaption>
+      </figure>
+    </section>
+
+    <section id="enda">
+      <h2>二、「細胞外內切核酸酵素」由誰製造？</h2>
+      <p>《Brooker Genetics》只稱它為「細胞外細菌內切核酸酵素」，沒有在該段指名細菌或酵素；但同節先說感受態受體細胞會表現 DNA 受體與攝取相關蛋白。《Prescott’s Microbiology》則把核酸酵素畫在受體菌的 ComEA、ComEC 攝取裝置旁。</p>
+      <div class="answer"><strong>在肺炎鏈球菌中，它是受體菌製造的 EndA。</strong>EndA 附著於細胞膜、催化區暴露在細胞表面。「細胞外」主要指作用位置，不宜理解成死去的 S 型菌分泌，或一個在環境中自由漂浮的酵素。</div>
+      <p>研究顯示，EndA 在非感受態細胞中已分布於膜上；細胞進入感受態時，EndA 會被 ComEA 招募到 DNA 攝取位置。死去的 S 型供體負責釋出 DNA，活的 R 型受體則提供捕捉、加工與輸送裝置。</p>
+
+      <figure>
+        <div class="figure-body">
+          <svg viewBox="0 0 1000 520" role="img" aria-labelledby="fig2-title fig2-desc">
+            <title id="fig2-title">肺炎鏈球菌的 DNA 攝取裝置</title>
+            <desc id="fig2-desc">DNA 攝取線毛將雙股 DNA 拉到細胞表面，ComEA 捕捉 DNA，EndA 降解一股，另一股經 ComEC 進入。</desc>
+            <defs>
+              <marker id="arrow-gold" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d99d3e"/></marker>
+              <linearGradient id="membrane" x1="0" x2="1"><stop offset="0" stop-color="#b7ded2"/><stop offset="1" stop-color="#7dbdad"/></linearGradient>
+            </defs>
+            <text x="40" y="52" font-size="22" font-weight="700" fill="#5b706c">細胞外</text>
+            <path d="M80 118 C190 74, 280 158, 390 111 S585 83, 710 123" fill="none" stroke="#704d9a" stroke-width="7"/>
+            <path d="M80 137 C190 93, 280 177, 390 130 S585 102, 710 142" fill="none" stroke="#a982ca" stroke-width="7"/>
+            <text x="85" y="91" font-size="20" fill="#704d9a">外來雙股 DNA</text>
+            <path d="M738 112 C835 88, 874 172, 810 225" fill="none" stroke="#0d675a" stroke-width="9"/>
+            <text x="752" y="78" font-size="19" fill="#0d675a">DNA 攝取線毛</text>
+
+            <rect x="28" y="248" width="944" height="84" rx="38" fill="url(#membrane)"/>
+            <text x="45" y="304" font-size="20" font-weight="700" fill="#0d3b35">細胞膜</text>
+            <rect x="545" y="233" width="100" height="114" rx="22" fill="#0d675a"/>
+            <text x="595" y="297" text-anchor="middle" font-size="20" font-weight="700" fill="white">ComEC</text>
+            <ellipse cx="457" cy="249" rx="58" ry="28" fill="#f1c061"/>
+            <text x="457" y="256" text-anchor="middle" font-size="18" font-weight="700" fill="#5f4312">ComEA</text>
+            <circle cx="690" cy="244" r="49" fill="#c96559"/>
+            <text x="690" y="251" text-anchor="middle" font-size="18" font-weight="700" fill="white">EndA</text>
+
+            <path d="M690 164 L690 191" stroke="#c96559" stroke-width="4" marker-end="url(#arrow-gold)"/>
+            <path d="M710 156 C770 183, 805 201, 840 225" fill="none" stroke="#a982ca" stroke-width="6" stroke-dasharray="12 9"/>
+            <text x="746" y="191" font-size="17" fill="#a1493f">其中一股被降解</text>
+            <path d="M595 169 L595 225" stroke="#704d9a" stroke-width="7"/>
+            <path d="M595 350 L595 438" stroke="#704d9a" stroke-width="7" marker-end="url(#arrow-gold)"/>
+            <text x="620" y="405" font-size="19" fill="#704d9a">另一股進入細胞質</text>
+            <text x="40" y="488" font-size="22" font-weight="700" fill="#5b706c">細胞質</text>
+          </svg>
+        </div>
+        <figcaption>圖 2｜依 Prescott 圖 16.22 與 EndA 研究改繪。EndA 是膜附著、表面暴露的 DNA-entry nuclease；ComEC 是跨膜通道。</figcaption>
+      </figure>
+    </section>
+
+    <section id="single-strand">
+      <h2>三、內切核酸酵素是把雙股 DNA「切成一股」嗎？</h2>
+      <div class="two-col">
+        <article class="card">
+          <span class="tag">階段 A｜先切短</span>
+          <h3>長雙股 DNA → 較短雙股片段</h3>
+          <p>《Brooker》先描述細胞外內切核酸酵素在長 DNA 上偶爾隨機切割。這一步完成後，課文明確說片段仍是<strong>雙股 DNA</strong>。</p>
+        </article>
+        <article class="card">
+          <span class="tag">階段 B｜攝取時犧牲一股</span>
+          <h3>雙股片段 → 一股進入＋一股降解</h3>
+          <p>接觸膜蛋白後，其中一股的磷酸二酯骨架被逐步水解；互補股則以單股形式穿過 ComEC。</p>
+        </article>
+      </div>
+      <div class="answer"><strong>因此不是「切開氫鍵後，得到兩條都完整的單股」。</strong>它是破壞其中一股的共價骨架，使那一股變成短片段或核苷酸；只有另一股保留並進入細胞。</div>
+      <blockquote>“One of the DNA strands is degraded, and the other strand enters the bacterial cytoplasm via an uptake system.”<cite>Brooker, <i>Genetics: Analysis and Principles</i>, 8e, Ch. 7</cite></blockquote>
+    </section>
+
+    <section id="recombination">
+      <h2>四、進入的單股 DNA 如何併入染色體？</h2>
+      <ol class="step-list">
+        <li><strong>單股 DNA 進入細胞質</strong>外來雙股 DNA 只保留其中一股穿過 ComEC；另一股已在表面被降解。</li>
+        <li><strong>RecA 形成核蛋白絲</strong>RecA 沿著外來單股 DNA 組裝，形成具有方向性的 RecA—DNA 核蛋白絲。</li>
+        <li><strong>搜尋同源序列</strong>核蛋白絲接觸染色體雙股 DNA，測試外來序列能否與其中一股互補。辨認的是序列相似性，不是「莢膜」這個性狀名稱。</li>
+        <li><strong>聯會與股侵入</strong>找到同源位置後，外來單股和染色體中的互補股形成新鹼基對，同時排開原本的染色體股。</li>
+        <li><strong>股交換向兩側延伸</strong>RecA 可利用 ATP 促進交換區域延伸。這種三股中間體可理解為 D-loop 型結構。</li>
+        <li><strong>形成異源雙股 DNA</strong>局部雙股由一股受體 DNA 和一股供體 DNA 組成；兩菌的序列差異可能造成鹼基錯配。</li>
+        <li><strong>修補、補合與封口</strong>修復酵素、DNA 聚合酶及 DNA 連接酶處理錯配與缺口；未整合的供體 DNA 會被降解。</li>
+        <li><strong>複製與分裂固定性狀</strong>經染色體複製與細胞分裂，供體等位基因才成為可穩定遺傳的染色體內容。</li>
+      </ol>
+
+      <figure>
+        <div class="figure-body">
+          <svg viewBox="0 0 1000 560" role="img" aria-labelledby="fig3-title fig3-desc">
+            <title id="fig3-title">RecA 促進的單股 DNA 同源重組</title>
+            <desc id="fig3-desc">外來單股 DNA 被 RecA 包覆、搜尋同源序列、侵入染色體雙股並形成異源雙股 DNA。</desc>
+            <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0d675a"/></marker></defs>
+            <g font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+              <text x="40" y="42" font-size="21" font-weight="700" fill="#0d3b35">1　RecA 包覆外來單股 DNA</text>
+              <path d="M60 95 C160 56, 265 135, 370 93" fill="none" stroke="#704d9a" stroke-width="7"/>
+              <g fill="#d99d3e"><circle cx="96" cy="83" r="15"/><circle cx="145" cy="80" r="15"/><circle cx="194" cy="91" r="15"/><circle cx="243" cy="105" r="15"/><circle cx="292" cy="108" r="15"/><circle cx="341" cy="99" r="15"/></g>
+              <text x="395" y="100" font-size="18" fill="#6b4b13">RecA—ssDNA 核蛋白絲</text>
+
+              <path d="M500 100 L585 100" stroke="#0d675a" stroke-width="4" marker-end="url(#arr)"/>
+              <text x="606" y="42" font-size="21" font-weight="700" fill="#0d3b35">2　搜尋同源位置</text>
+              <path d="M620 87 C710 47, 804 124, 930 78" fill="none" stroke="#2f7f73" stroke-width="7"/>
+              <path d="M620 108 C710 68, 804 145, 930 99" fill="none" stroke="#70b7a8" stroke-width="7"/>
+              <rect x="739" y="61" width="112" height="70" rx="16" fill="none" stroke="#d99d3e" stroke-width="4" stroke-dasharray="8 6"/>
+
+              <path d="M500 180 L500 238" stroke="#0d675a" stroke-width="4" marker-end="url(#arr)"/>
+              <text x="40" y="280" font-size="21" font-weight="700" fill="#0d3b35">3　股侵入：外來單股與互補染色體股配對</text>
+              <path d="M80 360 C208 305, 348 418, 500 347 S766 305, 925 352" fill="none" stroke="#2f7f73" stroke-width="7"/>
+              <path d="M80 383 C208 328, 332 428, 455 383" fill="none" stroke="#70b7a8" stroke-width="7"/>
+              <path d="M455 383 C545 352, 588 302, 687 326" fill="none" stroke="#704d9a" stroke-width="7"/>
+              <path d="M687 326 C774 348, 832 408, 925 375" fill="none" stroke="#70b7a8" stroke-width="7"/>
+              <path d="M455 381 C512 442, 610 455, 690 405" fill="none" stroke="#c96559" stroke-width="5" stroke-dasharray="10 8"/>
+              <text x="506" y="489" font-size="18" fill="#a1493f">被置換的受體 DNA 股</text>
+              <text x="511" y="310" font-size="18" fill="#704d9a">供體 DNA 股</text>
+              <text x="52" y="531" font-size="18" fill="#5b706c">結果：局部形成「一股受體＋一股供體」的異源雙股 DNA，之後再修復、複製與分裂。</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>圖 3｜依 Brooker 圖 7.11、Klug 圖 6.12、Cox 圖 13.9–13.10 改繪。圖中呈現的是轉形相關的單股侵入，不等同於把經典雙 Holliday junction 模型整套套入。</figcaption>
+      </figure>
+
+      <h3>不要誤套 Holliday junction 模型</h3>
+      <p>肺炎鏈球菌轉形可直接確定的是：外來單股 DNA、RecA 同源搜尋、股侵入、局部股交換與異源雙股形成。經典 RecBCD—雙股斷裂修復、雙 Holliday junction、RuvABC 解析描述的是另一種重組脈絡，不能全部當成 Griffith 轉形的必經步驟。</p>
+
+      <div class="flow" aria-label="完整流程摘要">
+        <span>S 型死菌裂解</span><b>→</b><span>釋出染色體 DNA</span><b>→</b><span>切成雙股片段</span><b>→</b><span>R 型菌捕捉</span><b>→</b><span>EndA 降解一股</span><b>→</b><span>ComEC 輸入另一股</span><b>→</b><span>RecA 同源重組</span><b>→</b><span>修復、複製、分裂</span>
+      </div>
+    </section>
+
+    <section id="sources">
+      <h2>原文書與研究來源</h2>
+      <div class="source-grid">
+        <article class="source"><span class="tag">原文書譯本</span><h3>Weaver, <i>Molecular Biology</i>, 5e</h3><p>第 2 章；R 型為失去莢膜形成能力的突變株，圖 2.1–2.2。</p></article>
+        <article class="source"><span class="tag">原文書譯本</span><h3>Pierce, <i>Genetics: A Conceptual Approach</i>, 7e</h3><p>第 9、10 章；IIR＋IIIS 實驗、同源區配對與兩次互換，圖 9.15、10.3。</p></article>
+        <article class="source"><span class="tag">原文書譯本</span><h3>Brooker, <i>Genetics: Analysis and Principles</i>, 8e</h3><p>第 7 章；雙股片段切割、一股降解、異源雙股 DNA，圖 7.11。</p></article>
+        <article class="source"><span class="tag">原文書譯本</span><h3>Prescott’s <i>Microbiology</i>, 12e</h3><p>第 16 章；DNA 攝取線毛、ComEA、ComEC 與核酸酵素，圖 16.22。</p></article>
+        <article class="source"><span class="tag">原文書譯本</span><h3>Klug, <i>Concepts of Genetics</i></h3><p>第 6 章；單股保留、同源配對、異源雙股及分裂後固定，圖 6.12。</p></article>
+        <article class="source"><span class="tag">原文書譯本</span><h3>Cox, <i>Molecular Biology</i>, 2e</h3><p>第 13 章；RecA 核蛋白絲、股侵入與分支遷移，圖 13.9–13.10。</p></article>
+        <article class="source"><span class="tag">研究補充</span><h3>EndA 與 DNA 攝取</h3><p><a href="https://doi.org/10.1093/nar/gkq802">Midon et al., 2011</a>；<a href="https://doi.org/10.1371/journal.ppat.1003596">Bergé et al., 2013</a>；<a href="https://pubmed.ncbi.nlm.nih.gov/8449922/">Méjean & Claverys, 1993</a>。</p></article>
+        <article class="source"><span class="tag">研究補充</span><h3>莢膜基因座置換</h3><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7457184/">Ganaie et al., 2020</a>：轉形株取得位於 <i>dexB</i> 與 <i>aliA</i> 之間的完整 <i>cps</i> 區域。</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">本頁以教學釐清為目的。原文書的短句僅作必要引用；所有機制圖片皆為重新繪製的示意圖，不是教科書掃描圖。</div>
+  </footer>
+</body>
+</html>
